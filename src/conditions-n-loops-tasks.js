@@ -70,8 +70,17 @@ function getMaxNumber(a, b, c) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
+function canQueenCaptureKing(queen, king) {
+  if (queen.x === king.x || queen.y === king.y) return true;
+
+  for (let i = 1; i <= 8; i += 1) {
+    if (queen.x + i === king.x && queen.y + i === king.y) return true;
+    if (queen.x - i === king.x && queen.y - i === king.y) return true;
+    if (queen.x + i === king.x && queen.y - i === king.y) return true;
+    if (queen.x - i === king.x && queen.y + i === king.y) return true;
+  }
+
+  return false;
 }
 
 /**
@@ -92,8 +101,14 @@ function canQueenCaptureKing(/* queen, king */) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isIsoscelesTriangle(a, b, c) {
+  return a === 0 || b === 0 || c === 0
+    ? false
+    : !!(
+        (a === b && a + b > c) ||
+        (a === c && a + c > c) ||
+        (c === b && c + b > c)
+      );
 }
 
 /**
@@ -110,8 +125,38 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  const strNum = `${num}`;
+  const romeNum = {
+    1: 'I',
+    2: 'II',
+    3: 'III',
+    4: 'IV',
+    5: 'V',
+    6: 'VI',
+    7: 'VII',
+    8: 'VIII',
+    9: 'IX',
+    10: 'X',
+    20: 'XX',
+    30: 'XXX',
+  };
+
+  let result;
+
+  if (romeNum[num]) {
+    result = romeNum[strNum];
+  } else if (num === 10) {
+    result = romeNum[strNum];
+  } else if (num === 20) {
+    result = romeNum[strNum];
+  } else if (num === 30) {
+    result = romeNum[strNum];
+  } else {
+    result = romeNum[`${strNum[0]}0`] + romeNum[strNum[1]];
+  }
+
+  return result;
 }
 
 /**
@@ -145,8 +190,16 @@ function convertNumberToString(/* numberStr */) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  let result = true;
+
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] !== str[str.length - 1 - i]) {
+      result = false;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -159,12 +212,20 @@ function isPalindrome(/* str */) {
  *
  * @example:
  *  'qwerty', 'q'     => 0
- *  'qwerty', 'е'     => 4
+ *  'qwerty', 'e'     => 4
  *  'qwerty', 'Q'     => -1
  *  'qwerty', 'p'     => -1
  */
-function getIndexOf(/* str, letter */) {
-  throw new Error('Not implemented');
+function getIndexOf(str, letter) {
+  let result = -1;
+
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === letter) {
+      result = i;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -182,8 +243,17 @@ function getIndexOf(/* str, letter */) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  const strNum = `${num}`;
+  let result = false;
+
+  for (let i = 0; i < strNum.length; i += 1) {
+    if (strNum[i] === `${digit}`) {
+      result = true;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -199,8 +269,27 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  const result = -1;
+
+  for (let i = 0; i < arr.length; i += 1) {
+    let leftCount = 0;
+    let rightCount = 0;
+
+    for (let j = 0; j < i; j += 1) {
+      leftCount += arr[j];
+    }
+
+    for (let k = i + 1; k < arr.length; k += 1) {
+      rightCount += arr[k];
+    }
+
+    if (leftCount === rightCount) {
+      return i;
+    }
+  }
+
+  return result;
 }
 
 /**
