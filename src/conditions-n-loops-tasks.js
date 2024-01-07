@@ -1,7 +1,7 @@
 /* *******************************************************************************************
  *                                                                                           *
  * Please read the following tutorial before implementing tasks:                             *
- * https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Looping_code    *
+ * https://developer.mozilla.org/en-US/docs/Learn/iavaScript/Building_blocks/Looping_code    *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration         *
  * https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals    *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else    *
@@ -174,8 +174,55 @@ function convertToRomanNumerals(num) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  let result = '';
+
+  for (let i = 0; i < numberStr.length; i += 1) {
+    switch (numberStr[i]) {
+      case '0':
+        result += 'zero';
+        break;
+      case '1':
+        result += 'one';
+        break;
+      case '2':
+        result += 'two';
+        break;
+      case '3':
+        result += 'three';
+        break;
+      case '4':
+        result += 'four';
+        break;
+      case '5':
+        result += 'five';
+        break;
+      case '6':
+        result += 'six';
+        break;
+      case '7':
+        result += 'seven';
+        break;
+      case '8':
+        result += 'eight';
+        break;
+      case '9':
+        result += 'nine';
+        break;
+      case '-':
+        result += 'minus';
+        break;
+      default:
+        result += 'point';
+        break;
+    }
+
+    if (i !== numberStr.length - 1) {
+      result += ' ';
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -313,8 +360,46 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const matrix = new Array(size);
+  for (let i = 0; i < size; i += 1) {
+    matrix[i] = new Array(size);
+  }
+
+  let topRow = 0;
+  let bottomRow = size - 1;
+  let leftCol = 0;
+  let rightCol = size - 1;
+
+  let count = 1;
+
+  while (topRow <= bottomRow && leftCol <= rightCol) {
+    for (let i = leftCol; i <= rightCol; i += 1) {
+      matrix[topRow][i] = count;
+      count += 1;
+    }
+    topRow += 1;
+
+    for (let i = topRow; i <= bottomRow; i += 1) {
+      matrix[i][rightCol] = count;
+      count += 1;
+    }
+    rightCol -= 1;
+
+    for (let i = rightCol; i >= leftCol; i -= 1) {
+      matrix[bottomRow][i] = count;
+      count += 1;
+    }
+    bottomRow -= 1;
+
+    for (let i = bottomRow; i >= topRow; i -= 1) {
+      matrix[i][leftCol] = count;
+      count += 1;
+    }
+    leftCol += 1;
+  }
+
+  return matrix;
 }
 
 /**
@@ -332,8 +417,26 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const result = matrix;
+  const n = result.length;
+
+  for (let layer = 0; layer < Math.floor(n / 2); layer += 1) {
+    const first = layer;
+    const last = n - 1 - layer;
+
+    for (let i = first; i < last; i += 1) {
+      const offset = i - first;
+      const top = result[first][i];
+
+      result[first][i] = result[last - offset][first];
+      result[last - offset][first] = result[last][last - offset];
+      result[last][last - offset] = result[i][last];
+      result[i][last] = top;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -350,8 +453,23 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const result = arr;
+  const n = result.length;
+
+  for (let i = 1; i < n; i += 1) {
+    const key = result[i];
+    let j = i - 1;
+
+    while (j >= 0 && result[j] > key) {
+      result[j + 1] = result[j];
+      j -= 1;
+    }
+
+    result[j + 1] = key;
+  }
+
+  return arr;
 }
 
 /**
@@ -371,8 +489,32 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+
+function shuffleChar(str, iterations) {
+  let result = str;
+  let count = iterations;
+
+  while (count) {
+    let leftSide = '';
+    let rightSide = '';
+
+    for (let i = 0; i < str.length; i += 1) {
+      if (i % 2 === 0) {
+        rightSide += result[i];
+      } else {
+        leftSide += result[i];
+      }
+    }
+
+    result = rightSide + leftSide;
+    count -= 1;
+
+    if (result === str) {
+      count %= iterations - count;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -392,8 +534,53 @@ function shuffleChar(/* str, iterations */) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const numArray = [];
+  let num = number;
+  while (num > 0) {
+    numArray.unshift(num % 10);
+    num = Math.floor(num / 10);
+  }
+
+  let index = -1;
+  for (let i = numArray.length - 2; i >= 0; i -= 1) {
+    if (numArray[i] < numArray[i + 1]) {
+      index = i;
+      break;
+    }
+  }
+
+  if (index === -1) {
+    return number;
+  }
+
+  let minIndex = index + 1;
+  for (let i = index + 2; i < numArray.length; i += 1) {
+    if (numArray[i] > numArray[index] && numArray[i] < numArray[minIndex]) {
+      minIndex = i;
+    }
+  }
+
+  const swapTemp = numArray[index];
+  numArray[index] = numArray[minIndex];
+  numArray[minIndex] = swapTemp;
+
+  for (let i = index + 1; i < numArray.length - 1; i += 1) {
+    for (let j = index + 1; j < numArray.length - 1; j += 1) {
+      if (numArray[j] > numArray[j + 1]) {
+        const sortTemp = numArray[j];
+        numArray[j] = numArray[j + 1];
+        numArray[j + 1] = sortTemp;
+      }
+    }
+  }
+
+  let result = 0;
+  for (let i = 0; i < numArray.length; i += 1) {
+    result = result * 10 + numArray[i];
+  }
+
+  return result;
 }
 
 module.exports = {
